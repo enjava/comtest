@@ -45,7 +45,7 @@ public class ThUtil {
     public static String getCRC(byte[] bytes){
 
         byte[] bb = new byte[2];
-        CRC164.get_crc16(bytes, bytes.length, bb);
+        get_crc16(bytes, bytes.length, bb);
         return Integer.toHexString((int)bb[0] & 0x000000ff)+" "+Integer.toHexString((int)bb[1] & 0x000000ff);
     }
 
@@ -68,6 +68,7 @@ public class ThUtil {
 
     // 从十六进制字符串到字节数组转换
     public static byte[] HexString2Bytes(String hexstr) {
+        hexstr=replase(hexstr);
         byte[] b = new byte[hexstr.length() / 2];
         int j = 0;
         for (int i = 0; i < b.length; i++) {
@@ -85,4 +86,18 @@ public class ThUtil {
             return (c - 'A' + 10) & 0x0f;
         return (c - '0') & 0x0f;
     }
+
+    public static boolean isEmpty(String str){
+        if (str!=null&&str.length()>0 )
+            return false;
+            return true;
+    }
+
+    public static String replase(String str){
+        if (isEmpty(str))
+            return str;
+        return str=str.replace("　","").replace("，","").replace(",","").replace(" ","");
+    }
+
+
 }

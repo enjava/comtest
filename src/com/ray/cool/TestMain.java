@@ -27,8 +27,10 @@ public class TestMain {
         //serialPort = SerialTool.openPort("COM1", 9600);
         //在该串口对象上添加监听器
       //  SerialTool.addListener(serialPort, new SerialListener());
-        byte[] abc = new byte[]{(byte) 0x45, (byte) 0x46, (byte) 0xCB, (byte) 0x01, (byte) 0x00, (byte) 0x37,
-                (byte) 0x07, (byte) 0x00, (byte) 0xE0, (byte) 0x07, (byte) 0x0B, (byte) 0x02, (byte) 0x0A, (byte) 0X29, (byte) 0x24, (byte) 0x88, (byte) 0xDF};
+        String strA="45 46 CB 06 00 31 18 00 A1 00 00 00 01 00 00 00 00 00 00 00 64 00 00 00 01 00 00 00 10 00 00 00 D0 EB";
+        byte [] abc=ThUtil.HexString2Bytes(strA);
+//        byte[] abc = new byte[]{(byte) 0x45, (byte) 0x46, (byte) 0xCB, (byte) 0x01, (byte) 0x00, (byte) 0x37,
+//                (byte) 0x07, (byte) 0x00, (byte) 0xE0, (byte) 0x07, (byte) 0x0B, (byte) 0x02, (byte) 0x0A, (byte) 0X29, (byte) 0x24, (byte) 0x88, (byte) 0xDF};
 
         SerialTool.sendToPort(serialPort, abc);
 

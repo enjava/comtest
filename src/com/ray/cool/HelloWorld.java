@@ -13,7 +13,7 @@ public class HelloWorld {
         //45 46 CB 01 00 37 07 00 E0 07 0B 02 0A 29 24 88 DF
         int i=28;
        byte ab= 'A';
-        System.out.println(   byteToInt(ab));
+        System.out.println(byteToInt(ab));
 //     byte[] a=   int2Byte(i);
 //
 //        for (byte c:a
