@@ -4,9 +4,6 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
-import java.util.Arrays;
-
-import static com.ray.cool.ThUtil.HexString2Bytes;
 import static com.ray.cool.ThUtil.bytesToHexString;
 
 /**
@@ -27,17 +24,21 @@ public class TestMain {
         //serialPort = SerialTool.openPort("COM1", 9600);
         //在该串口对象上添加监听器
       //  SerialTool.addListener(serialPort, new SerialListener());
-        String strA="45 46 CB 06 00 31 18 00 A1 00 00 00 01 00 00 00 00 00 00 00 64 00 00 00 01 00 00 00 10 00 00 00 D0 EB";
-        byte [] abc=ThUtil.HexString2Bytes(strA);
-//        byte[] abc = new byte[]{(byte) 0x45, (byte) 0x46, (byte) 0xCB, (byte) 0x01, (byte) 0x00, (byte) 0x37,
-//                (byte) 0x07, (byte) 0x00, (byte) 0xE0, (byte) 0x07, (byte) 0x0B, (byte) 0x02, (byte) 0x0A, (byte) 0X29, (byte) 0x24, (byte) 0x88, (byte) 0xDF};
+       //String strA="45 46 CB 04 00 31 18 00 A1 00 00 00 01 00 00 00 00 00 00 00 64 00 00 00 01 00 00 00 10 00 00 00 D0 EB";
+        //发送                        货道编号         容量            故障码        货道价格     货道库存        货道商品ID
+       // 45 46 CB 13 00 31 18 00    A1 00 00 00     01 00 00 00      00 00 00 00   64 00 00 00   01 00 00 00   10 00 00 00
+     String strA="45 46 CB 08 00 31 18 00 A3 00 00 00 0F 00 00 00 00 00 00 00 FA 22 02 00 04 00 00 00 AF 0C 0C 00";
+        //45 46 CB 09 00 30 1C 00 A3 00 00 00 0F 00 00 00 00 00 00 00 FA 22 02 00 AF 0C 00 00 04 00 00 00 00 00 00 00 8F 49
+        //返回 4546CB080031000003B5
+       //String strA="45 46 CB 09 00 30 04 00 A3 00 00 00";
+        byte [] abc=ThUtil.hexString2Bytes(ThUtil.getCRCStr(strA));
 
         SerialTool.sendToPort(serialPort, abc);
 
         String str = bytesToHexString(abc);
-        System.out.println(str);
-        System.out.println(Arrays.toString(abc));
-        System.out.println(Arrays.toString(HexString2Bytes(str)));
+        System.out.println(str.toUpperCase());
+//        System.out.println(Arrays.toString(abc));
+//        System.out.println(Arrays.toString(HexString2Bytes(str)));
 
 
     }
@@ -94,7 +95,7 @@ public class TestMain {
                                 System.out.println("读取数据过程中未获取到有效数据！请检查设备或程序！");
                             } else {
 
-                                System.out.println("字节数组直接转换2:" + bytesToHexString(data));
+                                System.out.println( bytesToHexString(data).toUpperCase());
                             }
 
                         }

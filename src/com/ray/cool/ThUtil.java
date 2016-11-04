@@ -1,12 +1,13 @@
 package com.ray.cool;
 
+
 /**
  * Created by en on 2016/11/2.
  */
 public class ThUtil {
 
     //java CRC16校验
-    public static int get_crc16 (byte[] bufData, int buflen, byte[] pcrc)
+    private static int get_crc16 (byte[] bufData, int buflen, byte[] pcrc)
     {
         int ret = 0;
         int CRC = 0x0000ffff;
@@ -67,7 +68,7 @@ public class ThUtil {
     }
 
     // 从十六进制字符串到字节数组转换
-    public static byte[] HexString2Bytes(String hexstr) {
+    public static byte[] hexString2Bytes(String hexstr) {
         hexstr=replase(hexstr);
         byte[] b = new byte[hexstr.length() / 2];
         int j = 0;
@@ -77,6 +78,28 @@ public class ThUtil {
             b[i] = (byte) ((parse(c0) << 4) | parse(c1));
         }
         return b;
+    }
+    //四字节高低位
+    public static String hiString4Bytes(int input){
+        // 拼装成 正确的int
+        return toHexString((byte) (input & 0xff))+" "+toHexString((byte) ((input & 0xff00) >> 8))+" "
+                +toHexString((byte) ((input & 0xff0000) >> 16))+" "+toHexString((byte) ((input & 0xff000000) >> 24));
+    }
+    //双字节高低位
+    public static String hiString2Bytes(int input){
+        if(input>=65536)
+            return input+"";
+        // 拼装成 正确的int
+        return toHexString((byte) (input & 0xff))+" "+toHexString((byte) ((input & 0xff00) >> 8));
+    }
+
+    public static String toHexString(byte b){
+        String s = Integer.toHexString(b & 0xFF).toUpperCase();
+        if (s.length() == 1){
+            return "0" + s;
+        }else{
+            return s;
+        }
     }
 
     private static int parse(char c) {
@@ -93,11 +116,32 @@ public class ThUtil {
             return true;
     }
 
-    public static String replase(String str){
+    private static String replase(String str){
         if (isEmpty(str))
             return str;
         return str=str.replace("　","").replace("，","").replace(",","").replace(" ","");
     }
 
+    public  static String getCRCStr(String str){
+       //String s=getCRC(HexString2Bytes(str));
+       return str+" "+getCRC(hexString2Bytes(str)).toUpperCase();
+   }
 
+    public static String fomatStr16(String str16){
+       if (isEmpty(str16))
+           return str16;
+       String str;
+       int length = str16.length();
+       int group = length/2;
+
+       if(0==length % 2)
+           str="";
+       else
+           return str16;
+
+       for(int i=0,j=0;i<group;i++,j+=2)
+           str+=str16.substring(j, j+2)+" ";
+
+       return str.trim();
+   }
 }
